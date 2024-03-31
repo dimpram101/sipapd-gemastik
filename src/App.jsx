@@ -1,16 +1,20 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginForm from "./pages/login/LoginForm";
 
 function App() {
   return (
     <>
-      <header>
-        <h1>My React App</h1>
-      </header>
-      <main>
-        <p>
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-      </main>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginForm />}></Route>
+          <Route
+            path="*"
+            element={<div>Tidak ada Halaman ini - Error 404</div>}
+          />
+        </Routes>
+      </Router>
+      {/* <LoginForm /> */}
     </>
   );
 }
