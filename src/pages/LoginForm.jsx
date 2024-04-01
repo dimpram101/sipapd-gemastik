@@ -15,21 +15,21 @@ const LoginForm = () => {
   return (
     <>
       <div className="h-screen w-screen flex items-center justify-center bg-[#09006F]">
-        <div className="p-8 sm:p-8 md:p-16 lg:p-20 xl:p-24 bg-gray-100 mx-auto border shadow-xl border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <div className="p-8 sm:p-8 md:p-16 lg:p-20 xl:p-24 bg-gray-100 mx-auto border shadow-xl border-gray-200 rounded-lg hover:bg-gray-100 ">
           <Link
             to="/"
-            className="block text-center text-6xl mb-2 ustify-center font-bold"
+            className="block text-center text-4xl mb-2 ustify-center font-bold"
           >
             Masuk
           </Link>
 
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <label className="block mb-2 text-sm font-medium text-gray-900">
             Username
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
               <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                className="w-4 h-4 text-gray-500"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -51,13 +51,13 @@ const LoginForm = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <label className="block my-2 text-sm font-medium text-gray-900 dark:text-white">
+          <label className="block my-2 text-sm font-medium text-gray-900">
             Password
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
               <svg
-                className="w-4 h-4 text-gray-500 dark:text-white"
+                className="w-4 h-4 text-gray-500"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -84,7 +84,7 @@ const LoginForm = () => {
           </div>
           <button
             type="button"
-            className="text-white bg-[#8F00FF] w-full text-center mt-10 place-content-center hover:bg-[#C277FD] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className="text-white bg-[#8F00FF] w-full text-center mt-10 place-content-center hover:bg-[#C277FD] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
           >
             Masuk
           </button>
