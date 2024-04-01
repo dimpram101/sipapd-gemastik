@@ -9,7 +9,7 @@ const Home = () => {
         <div className="flex flex-col gap-2 w-8/12 h-full">
           <div className="flex-1 w-full rounded-3xl bg-second h-full relative">
             <img
-              src="db-image.png"
+              src="../dbimage.png"
               alt=""
               className="absolute w-full h-full object-cover rounded-3xl"
             />
