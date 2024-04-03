@@ -1,27 +1,50 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../config/firebase";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  });
+
   return (
     <>
       <div className="h-screen w-screen flex items-center justify-center bg-[#09006F]">
-        <div className="p-8 sm:p-8 md:p-16 lg:p-20 xl:p-24 bg-gray-100 mx-auto border shadow-xl border-gray-200 rounded-lg hover:bg-gray-100 ">
-          <Link
-            to="/"
-            className="block text-center text-4xl mb-2 ustify-center font-bold"
-          >
+        <form
+          onSubmit={handleLogin}
+          className="p-8 sm:p-8 md:p-16 lg:p-20 xl:p-24 bg-gray-100 mx-auto border shadow-xl border-gray-200 rounded-lg hover:bg-gray-100 "
+        >
+          <p className="block text-center text-4xl mb-2 ustify-center font-bold">
             Masuk
-          </Link>
+          </p>
 
           <label className="block mb-2 text-sm font-medium text-gray-900">
             Username
@@ -83,12 +106,12 @@ const LoginForm = () => {
             </button>
           </div>
           <button
-            type="button"
+            type="submit"
             className="text-white bg-[#8F00FF] w-full text-center mt-10 place-content-center hover:bg-[#C277FD] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
           >
             Masuk
           </button>
-        </div>
+        </form>
       </div>
     </>
   );
