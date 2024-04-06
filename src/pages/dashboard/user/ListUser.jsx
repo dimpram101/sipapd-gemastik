@@ -88,7 +88,7 @@ const ListUser = () => {
   };
 
   if (loading) {
-    return <TableSkeleton />;
+    return <TableSkeleton title="List Users" buttonText="Tambah User" headers={["Nama", "Email", "Jabatan"]} />;
   }
 
   return (
