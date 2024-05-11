@@ -1,5 +1,5 @@
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import LoginForm from "./pages/LoginForm";
 import MainDashboard from "./layouts/MainDashboard";
 import Home from "./pages/dashboard/home/Home";
@@ -8,6 +8,10 @@ import ListUser from "./pages/dashboard/user/ListUser";
 import Camera from "./pages/dashboard/camera/Camera";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/login" replace />,
+  },
   {
     path: "/login",
     element: <LoginForm />,

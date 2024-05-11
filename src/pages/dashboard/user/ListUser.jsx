@@ -3,7 +3,7 @@ import { FaChevronRight } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import FormModal from "../components/FormModal";
 import { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
   collection,
   getDocs,
@@ -52,6 +52,9 @@ const ListUser = () => {
           name: newUser.name,
           email: newUser.email,
           jabatan: newUser.jabatan,
+        });
+        await updateProfile(user, {
+          displayName: newUser.name,
         });
         setUsers([...users, newUser]);
         setOpen(false);

@@ -1,8 +1,45 @@
+import { useEffect, useState } from "react";
 import AttributeControl from "./components/AttributeControl";
 import DetectionCount from "./components/DetectionCount";
 import NotificationCard from "./components/NotificationCard";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "../../../config/firebase";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const Home = () => {
+  const { username } = useAuth();
+  const [attributes, setAttributes] = useState([]);
+  const [detections, setDetections] = useState([]);
+
+  const fetchDetections = async () => {
+    const exeQuery = query(
+      collection(db, "detections"),
+      orderBy("time", "desc")
+    );
+    const querySnapshot = await getDocs(exeQuery);
+    setDetections(
+      querySnapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data(),
+      }))
+    );
+  };
+
+  const fetchAttributes = async () => {
+    const querySnapshot = await getDocs(collection(db, "attributes"));
+    setAttributes(
+      querySnapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data(),
+      }))
+    );
+  };
+
+  useEffect(() => {
+    fetchAttributes();
+    fetchDetections();
+  }, []);
+
   return (
     <div className="max-w-[100rem] mx-auto flex flex-col h-[800px]">
       <div className="flex-1 flex flex-row gap-2 h-full">
@@ -19,17 +56,17 @@ const Home = () => {
                   Kelompok A - Teknologi IOT - ITK
                 </p>
                 <p>
-                  Welcome, <span className="font-bold">Admin</span>
+                  Welcome, <span className="font-bold">{username}</span>
                 </p>
               </div>
             </div>
           </div>
           <div className="flex flex-row gap-2">
-            <DetectionCount />
-            <AttributeControl />
+            <DetectionCount detections={detections} />
+            <AttributeControl attributes={attributes} />
           </div>
         </div>
-        <NotificationCard />
+        <NotificationCard detections={detections} />
       </div>
     </div>
   );

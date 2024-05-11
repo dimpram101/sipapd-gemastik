@@ -22,7 +22,7 @@ const Camera = () => {
   const [newCamera, setNewCamera] = useState({
     name: "",
     location: "",
-    is_active: false,
+    is_active: 0,
   });
 
   const fetchCamera = async () => {
@@ -45,7 +45,7 @@ const Camera = () => {
     await addDoc(collection(db, "cameras"), {
       name: newCamera.name,
       location: newCamera.location,
-      is_active: newCamera.is_active,
+      is_active: newCamera.is_active == 1 ? true : false,
     });
     setOpen(false);
     setLoading(true);
@@ -54,10 +54,15 @@ const Camera = () => {
 
   const onEditCamera = async (e) => {
     e.preventDefault();
-    await updateDoc(doc(db, "cameras", newCamera.docId), {
+    console.log({
       name: newCamera.name,
       location: newCamera.location,
       is_active: newCamera.is_active,
+    });
+    await updateDoc(doc(db, "cameras", newCamera.docId), {
+      name: newCamera.name,
+      location: newCamera.location,
+      is_active: newCamera.is_active == 1 ? true : false,
     });
     setOpen(false);
     setLoading(true);
@@ -129,11 +134,14 @@ const Camera = () => {
               className="border border-gray-300 p-2 rounded-md"
               value={newCamera.is_active}
               onChange={(e) =>
-                setNewCamera({ ...newCamera, is_active: e.target.value })
+                setNewCamera({
+                  ...newCamera,
+                  is_active: Number(e.target.value),
+                })
               }
             >
-              <option value={true}>Aktif</option>
-              <option value={false}>Tidak Aktif</option>
+              <option value={1}>Aktif</option>
+              <option value={0}>Tidak Aktif</option>
             </select>
           </div>
           <button

@@ -1,11 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import FormModal from "../components/FormModal";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "../../../config/firebase";
+import Loading from "react-loading";
+import { timestampToDatetime } from "../../../utils/timestampToDatetime";
 
-const atribut = ['Gloves', 'Helmet', 'Vest', 'Shoes', 'Mask'];
+const atribut = {
+  "No-Helmet": "Helmet",
+  "No-Vest": "Vest",
+  "No-Shoes": "Shoes",
+  "No-Gloves": "Gloves",
+};
 
 const Detect = () => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [detections, setDetections] = useState([]);
+
+  const fetchDetections = async () => {
+    const exeQuery = query(collection(db, "detections"), orderBy("time", "desc"));
+    const querySnapshot = await getDocs(exeQuery);
+    setDetections(
+      querySnapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data(),
+      }))
+    );
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchDetections();
+  }, []);
+
+  if (loading) {
+    return <Loading type="spin" color="#8F00FF" />;
+  }
 
   return (
     <>
@@ -75,40 +106,42 @@ const Detect = () => {
                 <th scope="col" className="px-6 py-3">
                   Waktu - Tanggal
                 </th>
-                <th scope="col" className="px-6 py-3">
+                {/* <th scope="col" className="px-6 py-3">
                   Lokasi
-                </th>
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Gambar
                 </th>
-                <th scope="col" className="px-6 py-3">
+                {/* <th scope="col" className="px-6 py-3">
                   Action
-                </th>
+                </th> */}
               </tr>
             </thead>
             <tbody>
-              {[...Array(10)].map((_, index) => (
+              {detections.map((detection) => (
                 <tr
                   className="odd:bg-white  even:bg-gray-100  border-b "
-                  key={index}
+                  key={detection["time"]}
                 >
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
                   >
-                    {atribut[index % atribut.length]}
+                    {Array.from(new Set(detection['attribute'])).map(name => atribut[name]).join(", ")}
                   </th>
-                  <td className="px-6 py-4">12:14 - 01/04/2024</td>
-                  <td className="px-6 py-4">Lapangan 1</td>
-                  <td className="px-6 py-4 underline">Gambar</td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4">{timestampToDatetime(detection["time"])}</td>
+                  {/* <td className="px-6 py-4">Lapangan 1</td> */}
+                  <td className="px-6 py-4 underline">
+                    <a href={detection["image_url"]} target="_blank">Gambar</a>
+                  </td>
+                  {/* <td className="px-6 py-4">
                     <a
                       href="#"
                       className="font-medium text-red-600 hover:underline"
                     >
                       Hapus
                     </a>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
