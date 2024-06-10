@@ -46,6 +46,10 @@ const NotificationCard = ({ detections }) => {
               </div>
             </div>
           ))
+        ) : detections.length === 0 ? (
+          <div className="self-center h-full flex flex-col justify-center">
+            <p className="text-xs font-bold">Tidak ada notifikasi</p>
+          </div>
         ) : (
           <div className="self-center">
             <Loading type="spin" color="#8F00FF" />

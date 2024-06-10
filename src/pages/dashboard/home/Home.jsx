@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AttributeControl from "./components/AttributeControl";
 import DetectionCount from "./components/DetectionCount";
 import NotificationCard from "./components/NotificationCard";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../../../config/firebase";
 import { useAuth } from "../../../contexts/AuthContext";
+
+const atribut = {
+  "No-Helmet": "Helmet",
+  "No-Vest": "Vest",
+  "No-Shoes": "Shoes",
+  "No-Gloves": "Gloves",
+};
 
 const Home = () => {
   const { username } = useAuth();
@@ -40,6 +47,19 @@ const Home = () => {
     fetchDetections();
   }, []);
 
+  const filteredDetections = useMemo(
+    () =>
+      detections.length > 0
+        ? detections.map((detection) => ({
+            attribute: detection.attribute.filter((attr) => attr in atribut),
+            docId: detection.docId,
+            image_url: detection.image_url,
+            time: detection.time,
+          }))
+        : [],
+    [detections]
+  );
+
   return (
     <div className="max-w-[100rem] mx-auto flex flex-col h-[800px]">
       <div className="flex-1 flex flex-row gap-2 h-full">
@@ -52,8 +72,8 @@ const Home = () => {
             />
             <div className="absolute top-0 left-0 p-7 text-white h-full">
               <div className="flex flex-col justify-end h-full drop-shadow-xl">
-                <p className="font-bold text-3xl">
-                  Kelompok A - Teknologi IOT - ITK
+                <p className="font-bold text-3xl drop-shadow-2xl">
+                  SafElarm - Juru Selamat - Institut Teknologi Kalimantan
                 </p>
                 <p>
                   Welcome, <span className="font-bold">{username}</span>
@@ -62,11 +82,11 @@ const Home = () => {
             </div>
           </div>
           <div className="flex flex-row gap-2">
-            <DetectionCount detections={detections} />
+            <DetectionCount detections={filteredDetections} />
             <AttributeControl attributes={attributes} />
           </div>
         </div>
-        <NotificationCard detections={detections} />
+        <NotificationCard detections={filteredDetections} />
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const atribut = {
 };
 
 const DetectionCount = ({ detections }) => {
-  const countEveryAttribute = useCallback((detections) => {
+  const countEveryAttribute = useCallback((detections) => {    
     const attribute = detections.reduce((acc, detection) => {
       detection.attribute.forEach((attr) => {
         if (acc[attr]) {
@@ -32,7 +32,7 @@ const DetectionCount = ({ detections }) => {
     labels: Object.keys(atribut),
     datasets: [
       {
-        label: "Users Gained ",
+        label: "Attribute Detected",
         data: countEveryAttribute(detections),
         backgroundColor: [
           "rgba(75,192,192,1)",
