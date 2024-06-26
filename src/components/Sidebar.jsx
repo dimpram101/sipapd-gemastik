@@ -8,7 +8,7 @@ const Sidebar = () => {
   return (
     <aside className="fixed w-40 h-screen bg-[#09006F] z-50 flex flex-col">
       <div className="flex items-center font-bold justify-center p-4 text-white h-40">
-        Logo
+        <img src="/logo.jpg" alt="logo" className="w-20 h-20 rounded-full" />
       </div>
       <ul className="font-md px-3 text-lg flex-1 flex flex-col gap-10 justify-start mt-4">
         <div className="space-y-2">
