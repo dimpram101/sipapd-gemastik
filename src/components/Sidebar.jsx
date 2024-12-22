@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
-import { IoHome } from "react-icons/io5";
 import { IoIosWarning } from "react-icons/io";
-import { HiVideoCamera } from "react-icons/hi2";
+import { IoHome } from "react-icons/io5";
 import { RiFolderUserFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -35,7 +34,7 @@ const Sidebar = () => {
             </Link>
           </li>
         </div>
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <li>
             <Link to={"/dashboard/camera"}>
               <div className="flex flex-col items-center p-2 text-gray-900 rounded-lg group hover:text-[#8F00FF] hover:bg-[#3D0099] hover:scale-105 transition duration-300 ease-in-out">
@@ -46,7 +45,7 @@ const Sidebar = () => {
               </div>
             </Link>
           </li>
-        </div>
+        </div> */}
         <div className="space-y-2">
           <li>
             <Link to={"/dashboard/user"}>

@@ -31,21 +31,27 @@ const NotificationCard = ({ detections }) => {
       </div>
       <div className="flex flex-col space-y-5 overflow-y-auto h-full mt-6">
         {detections.length > 0 ? (
-          detections.map((detection, index) => (
-            <div key={index} className="flex flex-row items-center space-x-4">
-              <div className="h-4 w-4 rounded-full bg-[#9350FF]"></div>
-              <div className="flex flex-col justify-center">
-                <p className="text-lg font-bold">
-                  {Array.from(new Set(detection["attribute"]))
-                    .map((name) => atribut[name])
-                    .join(", ")}
-                </p>
-                <p className="text-sm italic font-semibold">
-                  {timestampToDatetime(detection["time"])}
-                </p>
-              </div>
-            </div>
-          ))
+          detections.map(
+            (detection, index) =>
+              detection["attribute"].length > 0 && (
+                <div
+                  key={index}
+                  className="flex flex-row items-center space-x-4"
+                >
+                  <div className="h-4 w-4 rounded-full bg-[#9350FF]"></div>
+                  <div className="flex flex-col justify-center">
+                    <p className="text-lg font-bold">
+                      {Array.from(new Set(detection["attribute"]))
+                        .map((name) => atribut[name])
+                        .join(", ")}
+                    </p>
+                    <p className="text-sm italic font-semibold">
+                      {timestampToDatetime(detection["time"])}
+                    </p>
+                  </div>
+                </div>
+              )
+          )
         ) : detections.length === 0 ? (
           <div className="self-center h-full flex flex-col justify-center">
             <p className="text-xs font-bold">Tidak ada notifikasi</p>

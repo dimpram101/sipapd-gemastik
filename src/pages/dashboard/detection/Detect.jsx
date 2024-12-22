@@ -1,7 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { collection, getDocs, orderBy, query, Timestamp, where } from "firebase/firestore";
-import { db } from "../../../config/firebase";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  Timestamp,
+  where,
+} from "firebase/firestore";
+import { useCallback, useEffect, useState } from "react";
 import Loading from "react-loading";
+import { db } from "../../../config/firebase";
 import { timestampToDatetime } from "../../../utils/timestampToDatetime";
 
 const atribut = {
@@ -40,19 +47,19 @@ const Detect = () => {
     fetchDetections();
   }, [fetchDetections]);
 
-  const filteredDetections = useMemo(
-    () =>
-      detections.length > 0
-        ? detections.map((detection) => ({
-            attribute: detection.attribute.filter((attr) => attr in atribut),
-            docId: detection.docId,
-            image_url: detection.image_url,
-            time: detection.time,
-          }))
-        : [],
-    [detections]
-  );
-
+  // const filteredDetections = useMemo(
+  //   () =>
+  //     detections.length > 0
+  //       ? detections.map((detection) => ({
+  //           attribute: detection.attribute.filter((attr) => attr in atribut),
+  //           docId: detection.docId,
+  //           image_url: detection.image_url,
+  //           time: detection.time,
+  //         }))
+  //       : [],
+  //   [detections]
+  // );
+  // console.log(detections);
   if (loading) {
     return (
       <div className="flex flex-col w-full h-[calc(100vh-16px)] justify-center items-center">
@@ -101,30 +108,32 @@ const Detect = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredDetections.length > 0 ? (
-                filteredDetections.map((detection) => (
-                  <tr
-                    className="odd:bg-white  even:bg-gray-100  border-b "
-                    key={detection["time"]}
-                  >
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
-                    >
-                      {detection["attribute"]
-                        .map((name) => atribut[name])
-                        .join(", ")}
-                    </th>
-                    <td className="px-6 py-4">
-                      {timestampToDatetime(detection["time"])}
-                    </td>
-                    {/* <td className="px-6 py-4">Lapangan 1</td> */}
-                    <td className="px-6 py-4 underline">
-                      <a href={detection["image_url"]} target="_blank">
-                        Gambar
-                      </a>
-                    </td>
-                    {/* <td className="px-6 py-4">
+              {detections.length > 0 ? (
+                detections.map(
+                  (detection) =>
+                    detection.attribute.length > 0 && (
+                      <tr
+                        className="odd:bg-white  even:bg-gray-100  border-b "
+                        key={detection["time"]}
+                      >
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                        >
+                          {Array.from(new Set(detection["attribute"]))
+                            // .map((name) => atribut[name])
+                            .join(", ")}
+                        </th>
+                        <td className="px-6 py-4">
+                          {timestampToDatetime(detection["time"])}
+                        </td>
+                        {/* <td className="px-6 py-4">Lapangan 1</td> */}
+                        <td className="px-6 py-4 underline">
+                          <a href={detection["image_url"]} target="_blank">
+                            Gambar
+                          </a>
+                        </td>
+                        {/* <td className="px-6 py-4">
                     <a
                       href="#"
                       className="font-medium text-red-600 hover:underline"
@@ -132,8 +141,9 @@ const Detect = () => {
                       Hapus
                     </a>
                   </td> */}
-                  </tr>
-                ))
+                      </tr>
+                    )
+                )
               ) : (
                 <tr>
                   <td colSpan="4" className="text-center bg-gray-100 py-4">
