@@ -1,8 +1,8 @@
-import { RiErrorWarningLine } from "react-icons/ri";
-import PropTypes from "prop-types";
 import { Chart } from "chart.js/auto";
-import BarChart from "./BarChart";
+import PropTypes from "prop-types";
 import { useCallback } from "react";
+import { RiErrorWarningLine } from "react-icons/ri";
+import BarChart from "./BarChart";
 
 Chart.register();
 
@@ -14,7 +14,7 @@ const atribut = {
 };
 
 const DetectionCount = ({ detections }) => {
-  const countEveryAttribute = useCallback((detections) => {    
+  const countEveryAttribute = useCallback((detections) => {
     const attribute = detections.reduce((acc, detection) => {
       detection.attribute.forEach((attr) => {
         if (acc[attr]) {
@@ -47,7 +47,7 @@ const DetectionCount = ({ detections }) => {
   };
 
   return (
-    <div className="h-[450px] w-8/12 rounded-3xl bg-second p-4">
+    <div className="min-h-[450px] w-full rounded-3xl bg-second p-4">
       <div className="flex justify-between items-center">
         <div className="flex space-x-2 items-center">
           <div className="w-10 h-10 rounded-full bg-[#D6CBFF] flex items-center justify-center">
@@ -57,7 +57,9 @@ const DetectionCount = ({ detections }) => {
         </div>
       </div>
 
-      <BarChart chartData={chartData} />
+      <div className="h-full">
+        <BarChart chartData={chartData} />
+      </div>
     </div>
   );
 };

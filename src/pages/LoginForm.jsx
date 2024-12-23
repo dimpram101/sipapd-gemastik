@@ -1,14 +1,15 @@
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../config/firebase";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -16,16 +17,14 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      console.log(user);
+      await signInWithEmailAndPassword(auth, email, password);
+      // const user = userCredential.user;
     } catch (error) {
-      console.log(error);
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -34,6 +33,8 @@ const LoginForm = () => {
       navigate("/dashboard");
     }
   });
+
+  console.log(isLoading);
 
   return (
     <>
@@ -107,7 +108,8 @@ const LoginForm = () => {
           </div>
           <button
             type="submit"
-            className="text-white bg-[#8F00FF] w-full text-center mt-10 place-content-center hover:bg-[#C277FD] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
+            className="text-white bg-[#8F00FF] w-full text-center mt-10 place-content-center hover:bg-[#C277FD] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 disabled:opacity-50 "
+            disabled={isLoading}
           >
             Masuk
           </button>
