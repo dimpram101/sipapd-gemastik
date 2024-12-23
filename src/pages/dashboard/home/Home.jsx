@@ -58,7 +58,7 @@ const Home = () => {
             attribute: detection.attribute.filter((attr) => attr in atribut),
             docId: detection.docId,
             image_url: detection.image_url,
-            time: detection.time,
+            time: new Date(detection.time.seconds * 1000).toISOString().split('T')[0],
           }))
         : [],
     [detections]
