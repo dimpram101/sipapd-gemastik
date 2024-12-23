@@ -22,7 +22,7 @@ const Home = () => {
     const exeQuery = query(
       collection(db, "detections"),
       orderBy("time", "desc"),
-      limit(100)
+      limit(25)
     );
     const querySnapshot = await getDocs(exeQuery);
     setDetections(
