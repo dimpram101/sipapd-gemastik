@@ -62,7 +62,7 @@ const Home = () => {
     [detections]
   );
 
-  console.log(filteredDetections);
+  // console.log(filteredDetections);
 
   return isLoading ? (
     <div className="flex justify-center items-center h-screen">
