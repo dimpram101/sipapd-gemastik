@@ -1,8 +1,7 @@
-import { FaRegBell } from "react-icons/fa6";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { FaRegBell } from "react-icons/fa6";
 import Loading from "react-loading";
-import { timestampToDatetime } from "../../../../utils/timestampToDatetime";
+import { Link } from "react-router-dom";
 
 const atribut = {
   "No-Helmet": "Helmet",
@@ -42,11 +41,12 @@ const NotificationCard = ({ detections }) => {
                   <div className="flex flex-col justify-center">
                     <p className="text-lg font-bold">
                       {Array.from(new Set(detection["attribute"]))
-                        .map((name) => atribut[name])
+                        .map((name) => name)
                         .join(", ")}
                     </p>
                     <p className="text-sm italic font-semibold">
-                      {timestampToDatetime(detection["time"])}
+                      {detection["time"]}
+                      {/* {timestampToDatetime(detection["time"])} */}
                     </p>
                   </div>
                 </div>

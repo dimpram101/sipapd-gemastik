@@ -34,8 +34,6 @@ const LoginForm = () => {
     }
   });
 
-  console.log(isLoading);
-
   return (
     <>
       <div className="h-screen w-screen flex items-center justify-center bg-[#09006F]">

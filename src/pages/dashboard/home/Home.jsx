@@ -5,12 +5,12 @@ import { db } from "../../../config/firebase";
 import DetectionCount from "./components/DetectionCount";
 import NotificationCard from "./components/NotificationCard";
 
-const atribut = {
-  "No-Helmet": "Helmet",
-  "No-Vest": "Vest",
-  "No-Shoes": "Shoes",
-  "No-Gloves": "Gloves",
-};
+// const atribut = {
+//   "No-Helmet": "Helmet",
+//   "No-Vest": "Vest",
+//   "No-Shoes": "Shoes",
+//   "No-Gloves": "Gloves",
+// };
 
 const Home = () => {
   // const { username } = useAuth();
@@ -22,7 +22,7 @@ const Home = () => {
     const exeQuery = query(
       collection(db, "detections"),
       orderBy("time", "desc"),
-      limit(25)
+      limit(50)
     );
     const querySnapshot = await getDocs(exeQuery);
     setDetections(
@@ -33,8 +33,6 @@ const Home = () => {
     );
     setIsLoading(false);
   };
-
-  console.log(detections)
 
   // const fetchAttributes = async () => {
   //   const querySnapshot = await getDocs(collection(db, "attributes"));
@@ -55,14 +53,16 @@ const Home = () => {
     () =>
       detections.length > 0
         ? detections.map((detection) => ({
-            attribute: detection.attribute.filter((attr) => attr in atribut),
+            attribute: detection.attribute,
             docId: detection.docId,
             image_url: detection.image_url,
-            time: new Date(detection.time.seconds * 1000).toISOString().split('T')[0],
+            time: new Date(detection.time.seconds * 1000).toISOString().split('T').join(' ').replace(/\..+/, ''),
           }))
         : [],
     [detections]
   );
+
+  console.log(filteredDetections);
 
   return isLoading ? (
     <div className="flex justify-center items-center h-screen">

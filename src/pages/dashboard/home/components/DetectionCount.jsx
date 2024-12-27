@@ -7,10 +7,14 @@ import BarChart from "./BarChart";
 Chart.register();
 
 const atribut = {
-  "No-Helmet": "Helmet",
-  "No-Vest": "Vest",
-  "No-Shoes": "Shoes",
-  "No-Gloves": "Gloves",
+  // "No-Helmet": "Helmet",
+  // "No-Vest": "Vest",
+  // "No-Shoes": "Shoes",
+  // "No-Gloves": "Gloves",
+  // "Helmet": "Helmet",
+  // "Vest": "Vest",
+  // "Shoes": "Shoes",
+  // "Gloves": "Gloves",
 };
 
 const DetectionCount = ({ detections }) => {
@@ -53,7 +57,7 @@ const DetectionCount = ({ detections }) => {
           <div className="w-10 h-10 rounded-full bg-[#D6CBFF] flex items-center justify-center">
             <RiErrorWarningLine className="text-4xl text-[#9350FF]" />
           </div>
-          <h1 className="text-xl font-bold text-black">Number of Violations</h1>
+          <h1 className="text-xl font-bold text-black">Number of Violations <span className="text-sm font-normal">(past 50 detections)</span></h1>
         </div>
       </div>
 
